@@ -1,0 +1,280 @@
+{
+  "name": "Gmail to Sheets Draft",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "readStatus": "unread"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "342f6cd7-8f84-4263-bf13-7911a8566b94",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PCX1wFpqsHmHDeVX",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following email details:\nFrom: {{ $json.From }}\nSubject: {{ $json.Subject }}\nContent: {{ $json.snippet }}\n\nReturn ONLY this format:\n\nSummary: <short summary>\n\nPriority: <Urgent, Normal, or Low>\n\nDraft Reply: <professional reply>\n\nRules:\n- Do not use words like Critical, High, or Medium.\n- Priority MUST be exactly one of these: Urgent, Normal, Low.\n- No markdown styling like bold (**), no extra chat, and no introductory text.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b7acbcc3-f4a0-43b7-88c7-40c7ab4acde1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        176
+      ],
+      "id": "112dc16c-dd5a-4ad0-b495-f1ac460db5cd",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "7jyBJP9gvUr44Kuu",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "988d4ad3-6ea8-4d01-963a-c8922563aecb",
+              "name": "Summary",
+              "value": "={{ $json.output.match(/Summary:\\s*(.*)/)?.[1]?.trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "80cf6667-b82c-420e-aba0-996c25ef58c7",
+              "name": "Priority",
+              "value": "={{ $json.output.match(/Priority:\\s*(.*)/)?.[1]?.trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "38f4abd7-a4ba-4f8c-a8d9-065afc7fb8d6",
+              "name": "Draft_Reply",
+              "value": "={{ $json.output.match(/Draft Reply:\\s*([\\s\\S]*)/)?.[1]?.trim() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        0
+      ],
+      "id": "83aae626-3869-4824-bc42-446ceb2e80cf",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "16I5PPVUHGhdVsHaLYa4nSHBYw7OhNSj8GIjPE85kCYQ",
+          "mode": "list",
+          "cachedResultName": "E-mail Drafts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16I5PPVUHGhdVsHaLYa4nSHBYw7OhNSj8GIjPE85kCYQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16I5PPVUHGhdVsHaLYa4nSHBYw7OhNSj8GIjPE85kCYQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Summary": "={{ $json.Summary }}",
+            "Priority": "={{ $json.Priority }}",
+            "Draft_Reply": "={{ $json.Draft_Reply }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Draft_Reply",
+              "displayName": "Draft_Reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        0
+      ],
+      "id": "ccf9c399-0d60-4726-a300-0d610e1bfee1",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "LRYwVFQRI9Aa0L1I",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $('Gmail Trigger').item.json.Subject }}",
+        "message": "={{ $json.Draft_Reply }}",
+        "options": {
+          "threadId": "={{ $('Gmail Trigger').item.json.threadId }}",
+          "sendTo": "={{ $('Gmail Trigger').item.json.From }}\n"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        976,
+        0
+      ],
+      "id": "7a8d3ae8-1c25-46c5-82e4-dd9114d46a04",
+      "name": "Create a draft",
+      "webhookId": "c7dbb983-31b7-48f9-be1d-af04d76d25e2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PCX1wFpqsHmHDeVX",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
+  },
+  "versionId": "7fe417af-b2a0-494d-ae1a-bf2230e0a19b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b330dfd743cbe8163dbdca134545d09dfb7bc26e212a44ebc16026f7e7be0bec"
+  },
+  "nodeGroups": [],
+  "id": "IRCAjynTGm3rX6Jc",
+  "tags": []
+}
