@@ -20,15 +20,15 @@ This project demonstrates how AI and workflow automation can assist in handling 
 
 The workflow automatically:
 
-* Detects new incoming emails using Gmail
-* Uses Google Gemini to analyze the email
-* Generates:
+- Detects new incoming emails using Gmail
+- Uses Google Gemini to analyze the email
+- Generates:
+  - Summary
+  - Priority classification
+  - Draft response
 
-  * Summary
-  * Priority classification
-  * Draft response
-* Stores the processed information in Google Sheets
-* Creates a Gmail draft for review before sending
+- Stores the processed information in Google Sheets
+- Creates a Gmail draft for review before sending
 
 This enables faster email triage while keeping the user in control of final communication.
 
@@ -36,8 +36,7 @@ This enables faster email triage while keeping the user in control of final comm
 
 ## Workflow Architecture
 
-![architecture](screenshots/architecture.png)
----
+## ![architecture](screenshots/architecture.png)
 
 ## Features
 
@@ -49,9 +48,9 @@ Automatically detects newly received emails.
 
 Google Gemini analyzes email content and generates:
 
-* Summary
-* Priority level
-* Suggested reply
+- Summary
+- Priority level
+- Suggested reply
 
 ### Data Logging
 
@@ -65,11 +64,11 @@ Creates a Gmail draft that can be reviewed and sent manually.
 
 ## Technologies Used
 
-* n8n
-* Google Gemini API
-* Gmail API
-* Google Sheets API
-* Containerization: Docker, Docker Compose
+- n8n
+- Google Gemini API
+- Gmail API
+- Google Sheets API
+- Containerization: Docker, Docker Compose
 
 ---
 
@@ -100,13 +99,13 @@ Thank you for the reminder. I will prepare the report and share it before Friday
 
 ## Future Improvements
 
-* Automatic email categorization
-* Sentiment analysis
-* Multi-agent workflow design
-* Knowledge-base retrieval (RAG)
-* Slack and Microsoft Teams integrations
-* Analytics dashboard
-* Human approval workflows
+- Automatic email categorization
+- Sentiment analysis
+- Multi-agent workflow design
+- Knowledge-base retrieval (RAG)
+- Slack and Microsoft Teams integrations
+- Analytics dashboard
+- Human approval workflows
 
 ---
 
@@ -115,7 +114,7 @@ Thank you for the reminder. I will prepare the report and share it before Friday
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/betheashvin/AI-Email-Workflow-Assistant.git
 cd ai-email-workflow-assistant
 ```
 
@@ -135,9 +134,9 @@ http://localhost:5678
 
 Import the provided `workflow.json` file into n8n and configure:
 
-* Gmail credentials
-* Gemini API credentials
-* Google Sheets credentials
+- Gmail credentials
+- Gemini API credentials
+- Google Sheets credentials
 
 ---
 
@@ -145,11 +144,11 @@ Import the provided `workflow.json` file into n8n and configure:
 
 This project explores:
 
-* Workflow automation
-* AI-assisted productivity
-* Prompt engineering
-* API integrations
-* Event-driven architectures
-* Agentic AI fundamentals
+- Workflow automation
+- AI-assisted productivity
+- Prompt engineering
+- API integrations
+- Event-driven architectures
+- Agentic AI fundamentals
 
 ---
