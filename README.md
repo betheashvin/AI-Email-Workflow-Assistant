@@ -115,7 +115,7 @@ Thank you for the reminder. I will prepare the report and share it before Friday
 
 ```bash
 git clone https://github.com/betheashvin/AI-Email-Workflow-Assistant.git
-cd ai-email-workflow-assistant
+cd AI-Email-Workflow-Assistant
 ```
 
 ### Start n8n
