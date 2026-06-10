@@ -8,6 +8,14 @@ The workflow automatically processes incoming emails, generates AI-powered insig
 
 ---
 
+## Demo Video
+
+A short demonstration of the workflow is available on LinkedIn:
+
+[Demo](https://www.linkedin.com/posts/ashvin-kumar_ai-automation-softwareengineering-activity-7470330784705458177-kcFo?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC_YABoB2lCLxgwxtEEExwi02-xs41tsD-I)
+
+---
+
 ## Problem
 
 Professionals and teams often spend significant time reading emails, identifying priorities, and drafting responses. Repetitive email processing can reduce productivity and delay important actions.
